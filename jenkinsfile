@@ -2,9 +2,28 @@ pipeline {
     agent any
 
     stages {
-        stage('Hello') {
+        stage('Build') {
+            agent {
+                kubernetes {
+                    defaultContainer 'node'
+                    yaml """
+                        apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: node
+    image: node:18-alpine
+    command:
+    - cat
+    tty: true
+"""
+                }
+            }
             steps {
-                echo 'Hello World'
+                container('node') {
+                    echo 'Hello World from Kubernetes!'
+                    sh 'node -v'
+                }
             }
         }
     }
