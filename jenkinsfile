@@ -2,17 +2,21 @@ pipeline {
     agent any
 
     stages {
+        stage('build') {
+            steps {
+                    echo 'Hello World'
+            }
+        }
         stage('test') {
             steps {
-                        echo 'Hello World from Kubernetes!'
-                    sh 'node -v'
+                echo 'Hello from the test'
             }
         }
     }
     
-    post {
-        always {
-            junit 'test-result/junit.xml'
-        }
-    }
+    // post {
+    //     always {
+    //         junit 'test-result/junit.xml'
+    //     }
+    // }
 }
